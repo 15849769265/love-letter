@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<!-- 情人节情书网站：纯原生 HTML + CSS + JS，无任何框架、无后端、无数据库 -->
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <!-- 移动端自适应视口设置：以手机浏览为主 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="color-scheme" content="light dark" />
+  <title>我们的小宇宙 —— 给你的情书</title>
+  <meta name="description" content="从第一次见面，到未来的每一天 —— 写给你的情书" />
+  <!-- 样式表（本地文件，不依赖任何外部 CDN，保证加载速度与离线可用） -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ============ 第一屏：封面 / 开场 ============ -->
+  <!-- 手机浏览器规定音乐不能自动播放，所以用一个"进入"按钮，
+       既能解决这个限制，也能当作一个有仪式感的开场动画 -->
+  <section id="cover" class="screen cover">
+    <div class="stars" aria-hidden="true"></div>
+    <div class="cover-content">
+      <p class="cover-sub">献给 <span id="cover-girl-name">她</span> 的</p>
+      <h1 class="cover-title">我们的小宇宙</h1>
+      <p class="cover-desc">从第一次见面，到未来的每一天</p>
+      <button id="enter-btn" class="btn-primary" type="button">
+        点我，走进我们的故事 💫
+      </button>
+    </div>
+  </section>
+
+  <!-- 网站主体内容，进入前先隐藏，点击"进入"按钮后显示 -->
+  <main id="main-content" hidden>
+
+    <!-- ============ 顶部小导航 / 音乐按钮，始终悬浮 ============ -->
+    <div class="floating-bar">
+      <!-- 背景音乐播放器：没有放音乐文件时会自动隐藏，不会报错 -->
+      <button id="music-btn" class="music-btn" type="button" aria-label="播放/暂停背景音乐" hidden>
+        <span id="music-icon">🎵</span>
+      </button>
+      <!-- 在一起天数小徽章 -->
+      <div id="days-badge" class="days-badge" aria-live="polite"></div>
+    </div>
+
+    <!-- 背景音乐元素：音频文件缺失时不会导致页面报错 -->
+    <audio id="bg-music" loop preload="none">
+      <source src="assets/music/our-song.mp3" type="audio/mpeg" />
+    </audio>
+
+    <!-- ============ 时间线：回忆点点滴滴 ============ -->
+    <section id="timeline-section" class="screen">
+      <h2 class="section-title">我们的点点滴滴</h2>
+      <p class="section-sub">每一个瞬间，我都悄悄收好了</p>
+      <ol id="timeline-list" class="timeline" aria-label="回忆时间线">
+        <!-- 时间线卡片由 script.js 根据 CONFIG.timeline 动态生成 -->
+      </ol>
+    </section>
+
+    <!-- ============ 情书正文：打字机效果逐段显示 ============ -->
+    <section id="letter-section" class="screen letter-section">
+      <h2 class="section-title">写给你的信</h2>
+      <div id="letter-paper" class="letter-paper">
+        <div id="letter-text" class="letter-text"></div>
+        <button id="letter-skip" class="btn-ghost" type="button">跳过动画，直接看全文</button>
+      </div>
+    </section>
+
+    <!-- ============ 结尾彩蛋 ============ -->
+    <section id="ending-section" class="screen ending-section">
+      <div class="heart-rain" id="heart-rain" aria-hidden="true"></div>
+      <h2 id="ending-title" class="ending-title"></h2>
+      <p id="ending-text" class="ending-text"></p>
+      <p class="ending-sign">—— <span id="ending-my-name"></span></p>
+      <button id="replay-btn" class="btn-ghost" type="button">再看一遍 ↺</button>
+    </section>
+
+  </main>
+
+  <!-- 逻辑脚本放在最后加载，保证页面结构先渲染，提升打开速度 -->
+  <script src="script.js"></script>
+</body>
+</html>
