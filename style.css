@@ -53,11 +53,14 @@
   color-scheme: dark;
 }
 
-/* 可选的自定义手写字体：把合法授权的 .woff2 文件放进 assets/fonts/handwriting.woff2 即可启用。
-   没有这个文件时，浏览器会静默跳过（不会报错），自动使用上面 --font-hand 里的系统手写字体兜底。 */
+/* 可选的自定义手写字体：支持 .woff2 或 .ttf 两种格式，两个文件放一个就行，不用两个都放。
+   浏览器会按顺序尝试：先找 handwriting.woff2（体积小、加载快），找不到再试 handwriting.ttf。
+   两个文件都没有时，会静默跳过（不会报错），自动使用上面 --font-hand 里的系统手写字体兜底。 */
 @font-face {
   font-family: "HandwritingCustom";
-  src: url("assets/fonts/handwriting.woff2") format("woff2");
+  src:
+    url("assets/fonts/handwriting.woff2") format("woff2"),
+    url("assets/fonts/handwriting.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
   font-display: optional; /* 没有缓存好字体就直接用兜底字体，不让用户等待、不阻塞渲染 */
