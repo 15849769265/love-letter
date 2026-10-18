@@ -6,18 +6,19 @@
 
 /* ---------- 1. 全局变量：颜色、字体、间距统一在这里管理，方便以后改配色 ---------- */
 :root {
-  /* 主色调：浪漫的夜紫 + 粉色渐变（模仿水墨晚霞风格） */
-  --color-bg-deep: #241527;
-  --color-bg-deep2: #3b2140;
-  --color-bg-rose: #ad7b8c;
-  --color-bg-rose2: #8a5a73;
-  --color-accent: #ff6f91;
-  --color-accent-2: #ffd1dc;
-  --color-gold: #ffd166;
+  /* 主色调：模仿"水墨晚霞"风格 —— 雾霾紫玫瑰色过渡到深紫夜色，比亮粉更柔和高级 */
+  --color-bg-deep: #241526;
+  --color-bg-deep2: #3c2742;
+  --color-bg-rose: #a9798b;
+  --color-bg-rose2: #87566e;
+  --color-accent: #c6506e;
+  --color-accent-soft: #d98299;
+  --color-accent-2: #f3c7d2;
+  --color-gold: #e8c074;
   --color-text-light: #fdfaff;
-  --color-text-soft: rgba(253, 250, 255, 0.78);
+  --color-text-soft: rgba(253, 250, 255, 0.76);
   --color-card-bg: rgba(255, 255, 255, 0.08);
-  --color-card-border: rgba(255, 255, 255, 0.16);
+  --color-card-border: rgba(255, 255, 255, 0.15);
 
   /* 纸张（情书）配色：暖白色信纸 */
   --paper-bg: #fdf6e9;
@@ -39,11 +40,37 @@
     "Helvetica Neue", Arial, sans-serif;
   --font-serif: "Songti SC", "SimSun", "Noto Serif SC", serif;
 
+  /* 手写风格字体：情书正文专用。
+     第一顺位 HandwritingCustom 是可选的自定义字体（见 assets/fonts 说明，没有放文件时会自动跳过）；
+     后面都是系统/手机自带的中文手写风格字体，覆盖 iOS、macOS、大多数安卓机型，不用联网也能生效。 */
+  --font-hand: "HandwritingCustom", "STKaitiSC-Black", "STKaiti", "Kaiti SC", "KaiTi",
+    "华文行楷", "STXingkai", "Xingkai SC", "文鼎行楷", var(--font-serif), cursive;
+
   --radius-lg: 24px;
   --radius-md: 16px;
   --space-section: 56px;
 
   color-scheme: dark;
+}
+
+/* 可选的自定义手写字体：把合法授权的 .woff2 文件放进 assets/fonts/handwriting.woff2 即可启用。
+   没有这个文件时，浏览器会静默跳过（不会报错），自动使用上面 --font-hand 里的系统手写字体兜底。 */
+@font-face {
+  font-family: "HandwritingCustom";
+  src: url("assets/fonts/handwriting.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+  font-display: optional; /* 没有缓存好字体就直接用兜底字体，不让用户等待、不阻塞渲染 */
+}
+
+/* 星号分隔符（✦ · ✧ · ✦），用来装点封面和重点文案，纯文字实现，不需要图标库 */
+.sparkle-row {
+  letter-spacing: 10px;
+  font-size: 0.8rem;
+  color: var(--color-accent-2);
+  opacity: 0.85;
+  text-align: center;
+  margin-bottom: 14px;
 }
 
 /* ---------- 2. 基础重置 ---------- */
@@ -336,8 +363,8 @@ img { max-width: 100%; display: block; }
 }
 
 .avatar {
-  width: 44px;
-  height: 44px;
+  width: 46px;
+  height: 46px;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -345,8 +372,9 @@ img { max-width: 100%; display: block; }
   font-weight: 700;
   font-size: 0.95rem;
   color: #fff;
-  border: 2px solid var(--color-bg-deep);
-  margin-left: -10px;
+  border: 3px solid var(--color-bg-deep);
+  margin-left: -16px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
 }
 .avatar:first-child { margin-left: 0; }
 .avatar-a { background: var(--color-accent); }
@@ -450,7 +478,7 @@ img { max-width: 100%; display: block; }
   position: relative;
   width: 100%;
   aspect-ratio: 16 / 10;
-  background: linear-gradient(135deg, #ffb3c6, #c6a9ff);
+  background: linear-gradient(135deg, #e3a6b8, #9d7fae);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -459,6 +487,21 @@ img { max-width: 100%; display: block; }
   position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
 }
 .timeline-photo .placeholder-icon { font-size: 2.2rem; position: relative; z-index: 1; }
+
+/* 照片顶部的"小胶带"装饰，模拟手帐贴照片的感觉 */
+.timeline-photo::after {
+  content: "";
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-2deg);
+  width: 64px;
+  height: 22px;
+  background: rgba(255, 255, 255, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+  z-index: 3;
+}
 
 .timeline-index {
   position: absolute;
@@ -634,12 +677,27 @@ img { max-width: 100%; display: block; }
   color: var(--paper-text);
   border: 1px solid var(--paper-border);
   border-radius: var(--radius-lg);
-  padding: 28px 22px;
+  padding: 32px 22px;
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
-  font-family: var(--font-serif);
+  /* 信纸背景加一条一条很淡的横线，模拟真实信纸的质感 */
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent 2.35em,
+    rgba(58, 46, 44, 0.08) 2.35em,
+    rgba(58, 46, 44, 0.08) calc(2.35em + 1px)
+  );
 }
-.letter-text { white-space: pre-wrap; font-size: 1.05rem; line-height: 2; min-height: 120px; }
-.letter-text p { margin-bottom: 1.2em; }
+/* 情书正文：使用手写风格字体，字号略大、字距略宽、行距加大，读起来更像亲手写的信 */
+.letter-text {
+  white-space: pre-wrap;
+  font-family: var(--font-hand);
+  font-size: 1.28rem;
+  line-height: 2.35em;
+  min-height: 120px;
+  letter-spacing: 0.5px;
+}
+.letter-text p { margin: 0 0 2.35em; }
 
 .typing-cursor::after {
   content: "▍";
