@@ -13,63 +13,164 @@
 </head>
 <body>
 
+  <!-- 左上角悬浮工具条：音乐开关，始终可见 -->
+  <div class="floating-bar">
+    <button id="music-btn" class="music-btn" type="button" aria-label="播放/暂停背景音乐" hidden>
+      <span id="music-icon">🎵</span>
+    </button>
+    <span id="music-tip" class="music-tip">轻触页面开启音乐</span>
+  </div>
+
+  <!-- 背景音乐元素：音频文件缺失时不会导致页面报错 -->
+  <audio id="bg-music" loop preload="none">
+    <source src="assets/music/our-song.mp3" type="audio/mpeg" />
+  </audio>
+
   <!-- ============ 第一屏：封面 / 开场 ============ -->
-  <!-- 手机浏览器规定音乐不能自动播放，所以用一个"进入"按钮，
-       既能解决这个限制，也能当作一个有仪式感的开场动画 -->
   <section id="cover" class="screen cover">
     <div class="stars" aria-hidden="true"></div>
     <div class="cover-content">
-      <p class="cover-sub">献给 <span id="cover-girl-name">她</span> 的</p>
-      <h1 class="cover-title">我们的小宇宙</h1>
-      <p class="cover-desc">从第一次见面，到未来的每一天</p>
-      <button id="enter-btn" class="btn-primary" type="button">
-        点我，走进我们的故事 💫
-      </button>
+      <p class="cover-eyebrow" id="cover-eyebrow">OUR LOVE STORY</p>
+      <p class="cover-sub" id="cover-sub">写给她的一封信</p>
+      <h1 class="cover-title">
+        <span id="cover-title-line1">我们的小宇宙</span>
+        <span id="cover-title-line2">从第一次见面，到未来的每一天</span>
+      </h1>
+      <p class="cover-names"><span id="cover-name-a"></span> <span class="heart-sep">♡</span> <span id="cover-name-b"></span></p>
+      <button id="enter-btn" class="btn-primary" type="button">轻触页面，开启我们的故事</button>
+      <p class="scroll-hint">向下滑，故事从这里开始<br /><span class="scroll-arrow">↓</span></p>
     </div>
   </section>
 
   <!-- 网站主体内容，进入前先隐藏，点击"进入"按钮后显示 -->
   <main id="main-content" hidden>
 
-    <!-- ============ 顶部小导航 / 音乐按钮，始终悬浮 ============ -->
-    <div class="floating-bar">
-      <!-- 背景音乐播放器：没有放音乐文件时会自动隐藏，不会报错 -->
-      <button id="music-btn" class="music-btn" type="button" aria-label="播放/暂停背景音乐" hidden>
-        <span id="music-icon">🎵</span>
-      </button>
-      <!-- 在一起天数小徽章 -->
-      <div id="days-badge" class="days-badge" aria-live="polite"></div>
-    </div>
+    <!-- ============ 相恋计时：我们已经相爱 ___ 天 ============ -->
+    <section id="counter-section" class="screen counter-section">
+      <div class="counter-photo">
+        <img id="counter-img" src="assets/images/cover.jpg" alt="我们的合照" loading="lazy" />
+        <div class="counter-avatars">
+          <span id="avatar-a" class="avatar avatar-a"></span>
+          <span id="avatar-b" class="avatar avatar-b"></span>
+        </div>
+      </div>
+      <div class="counter-body">
+        <p class="counter-label">我们已经相爱</p>
+        <p class="counter-number"><span id="counter-days">0</span><span class="counter-unit">天</span><span id="counter-hours">0</span><span class="counter-unit">小时</span></p>
+        <p class="counter-since">始于 <span id="counter-start-date"></span></p>
+      </div>
+      <!-- 今日心语卡片 -->
+      <div class="daily-quote-card">
+        <span class="daily-quote-icon">♥</span>
+        <div class="daily-quote-body">
+          <p class="daily-quote-label" id="daily-quote-label">今天也想认真说</p>
+          <p class="daily-quote-text" id="daily-quote-text">和你在一起，真好</p>
+        </div>
+        <span class="daily-quote-heart">♥</span>
+      </div>
+    </section>
 
-    <!-- 背景音乐元素：音频文件缺失时不会导致页面报错 -->
-    <audio id="bg-music" loop preload="none">
-      <source src="assets/music/our-song.mp3" type="audio/mpeg" />
-    </audio>
+    <!-- ============ 引言过渡区（深色大字） ============ -->
+    <section id="quote-break" class="screen quote-break">
+      <p class="quote-break-eyebrow" id="quote-break-eyebrow">OUR ORDINARY DAYS</p>
+      <h2 class="quote-break-title" id="quote-break-title">是每个普通日子里都有你</h2>
+    </section>
 
-    <!-- ============ 时间线：回忆点点滴滴 ============ -->
+    <!-- ============ 时间线：我们的故事 ============ -->
     <section id="timeline-section" class="screen">
-      <h2 class="section-title">我们的点点滴滴</h2>
-      <p class="section-sub">每一个瞬间，我都悄悄收好了</p>
+      <p class="eyebrow">OUR DIARY</p>
+      <h2 class="section-title">我们的故事</h2>
+      <p class="section-sub">那些值得被记住的，小小瞬间。</p>
       <ol id="timeline-list" class="timeline" aria-label="回忆时间线">
         <!-- 时间线卡片由 script.js 根据 CONFIG.timeline 动态生成 -->
       </ol>
     </section>
 
-    <!-- ============ 情书正文：打字机效果逐段显示 ============ -->
+    <!-- ============ 大图引言区 ============ -->
+    <section id="photo-quote" class="screen photo-quote">
+      <img id="photo-quote-img" src="assets/images/moment.jpg" alt="我们喜欢的瞬间" loading="lazy" />
+      <div class="photo-quote-overlay">
+        <p class="eyebrow eyebrow-light" id="photo-quote-eyebrow">OUR FAVORITE MOMENTS</p>
+        <p class="photo-quote-text" id="photo-quote-text">晚霞替我藏了一颗心</p>
+        <span class="photo-quote-heart">♡</span>
+      </div>
+    </section>
+
+    <!-- ============ 照片墙 ============ -->
+    <section id="gallery-section" class="screen">
+      <p class="eyebrow">OUR GALLERY</p>
+      <h2 class="section-title">我们的照片墙</h2>
+      <div id="gallery-grid" class="gallery-grid">
+        <!-- 照片卡片由 script.js 根据 CONFIG.gallery 动态生成 -->
+      </div>
+    </section>
+
+    <!-- ============ 喜欢你的理由 ============ -->
+    <section id="reasons-section" class="screen">
+      <p class="eyebrow">WHY I LOVE YOU</p>
+      <h2 class="section-title" id="reasons-title">喜欢你的 N 个理由</h2>
+      <p class="section-sub">还有很多细节，藏在没说出口的日常里。</p>
+      <div id="reasons-grid" class="reasons-grid">
+        <!-- 理由卡片由 script.js 根据 CONFIG.reasons 动态生成 -->
+      </div>
+    </section>
+
+    <!-- ============ 两个人的计划（心愿清单） ============ -->
+    <section id="bucket-section" class="screen">
+      <p class="eyebrow">CHAPTER NEXT</p>
+      <h2 class="section-title">两个人的计划</h2>
+      <p class="section-sub">想和你一起，把"以后"慢慢完成。</p>
+
+      <div class="progress-card">
+        <div class="progress-ring-wrap">
+          <svg class="progress-ring" width="88" height="88" viewBox="0 0 88 88" aria-hidden="true">
+            <circle class="progress-ring-bg" cx="44" cy="44" r="38"></circle>
+            <circle id="progress-ring-fg" class="progress-ring-fg" cx="44" cy="44" r="38"></circle>
+          </svg>
+          <span id="progress-percent" class="progress-percent">0%</span>
+        </div>
+        <div class="progress-info">
+          <p class="progress-label">愿望完成度</p>
+          <p class="progress-count"><span id="progress-done">0</span> / <span id="progress-total">0</span> 个约定</p>
+          <p class="progress-tip">每打一个勾，未来就近一点。</p>
+        </div>
+      </div>
+
+      <div id="bucket-list" class="bucket-list">
+        <!-- 心愿卡片由 script.js 根据 CONFIG.bucketList 动态生成，勾选状态会保存在这台设备上 -->
+      </div>
+    </section>
+
+    <!-- ============ 情书正文 ============ -->
     <section id="letter-section" class="screen letter-section">
-      <h2 class="section-title">写给你的信</h2>
+      <p class="eyebrow eyebrow-light">A LETTER FOR YOU</p>
+      <h2 class="section-title section-title-light">写给你的信</h2>
       <div id="letter-paper" class="letter-paper">
         <div id="letter-text" class="letter-text"></div>
         <button id="letter-skip" class="btn-ghost" type="button">跳过动画，直接看全文</button>
       </div>
     </section>
 
-    <!-- ============ 结尾彩蛋 ============ -->
+    <!-- ============ 结尾互动卡片 ============ -->
+    <section id="final-section" class="screen final-section">
+      <div class="final-card">
+        <span class="final-sparkle" aria-hidden="true">✦</span>
+        <p class="final-question" id="final-question">未来的每一个普通日子，也继续一起过，好吗？</p>
+        <button id="final-btn" class="btn-primary final-btn" type="button">好呀，我们说定了</button>
+        <div id="final-reveal" class="final-reveal" hidden>
+          <p class="final-reveal-mark">✦ ♡ ✦</p>
+          <p class="final-reveal-title" id="final-reveal-title">说定了，不许反悔 ♡</p>
+          <p class="final-reveal-text" id="final-reveal-text"></p>
+          <p class="final-reveal-note" id="final-reveal-note">这一刻，也会成为我们的新回忆。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 结尾彩蛋 / 页脚 ============ -->
     <section id="ending-section" class="screen ending-section">
       <div class="heart-rain" id="heart-rain" aria-hidden="true"></div>
-      <h2 id="ending-title" class="ending-title"></h2>
-      <p id="ending-text" class="ending-text"></p>
-      <p class="ending-sign">—— <span id="ending-my-name"></span></p>
+      <p class="ending-names"><span id="ending-name-a"></span> <span class="heart-sep">♡</span> <span id="ending-name-b"></span></p>
+      <p class="ending-text" id="ending-text">爱有很多种表达，而这一页只属于你。</p>
       <button id="replay-btn" class="btn-ghost" type="button">再看一遍 ↺</button>
     </section>
 
