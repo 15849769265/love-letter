@@ -63,7 +63,7 @@
     url("assets/fonts/handwriting.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
-  font-display: optional; /* 没有缓存好字体就直接用兜底字体，不让用户等待、不阻塞渲染 */
+  font-display: swap; /* 没有缓存好字体就直接用兜底字体，不让用户等待、不阻塞渲染 */
 }
 
 /* 星号分隔符（✦ · ✧ · ✦），用来装点封面和重点文案，纯文字实现，不需要图标库 */
