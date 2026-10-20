@@ -1,1 +1,0 @@
-把你们的照片放在这里，命名为 photo1.jpg、photo2.jpg……（详见根目录 README.md）
